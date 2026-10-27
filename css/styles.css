@@ -1,0 +1,150 @@
+/* ============================================================
+ *  星海拾贝 · 自定义样式
+ *  说明：页面主体布局依赖 Tailwind（CDN），本文件存放组件级
+ *  自定义样式（星空背景、毛玻璃卡片、闪卡翻转、选项反馈等）。
+ * ============================================================ */
+
+body {
+    font-family: 'Noto Sans SC', sans-serif;
+    color: #e2e8f0;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+    /* 基础背景色，作为canvas加载前的回退 */
+    background-color: #04050a;
+}
+
+/* 动态星空画布置于底层 */
+#starfield {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+
+/* 强化毛玻璃效果卡片 */
+.glass-card {
+    background: linear-gradient(145deg, rgba(20, 24, 36, 0.6) 0%, rgba(10, 12, 18, 0.8) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.7),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* 霓虹发光文字标题 */
+.neon-text {
+    text-shadow: 0 0 20px rgba(96, 165, 250, 0.4);
+}
+
+/* 闪卡翻转动画 */
+.flip-card {
+    background-color: transparent;
+    perspective: 1000px;
+}
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+}
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg);
+}
+.flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 1rem;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+}
+.flip-card-back {
+    transform: rotateY(180deg);
+    overflow-y: auto;
+}
+
+/* 自定义滚动条 - 更纤细精美 */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.15);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* 选项按钮悬浮与发光效果 */
+.option-btn {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.option-btn:hover:not(:disabled) {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
+    border-color: rgba(96, 165, 250, 0.5);
+    background-color: rgba(30, 41, 59, 0.9);
+}
+.option-btn:active:not(:disabled) {
+    transform: translateY(0) scale(0.98);
+}
+
+.correct-answer {
+    background-color: rgba(16, 185, 129, 0.15) !important;
+    border-color: #10b981 !important;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3) !important;
+}
+.wrong-answer {
+    background-color: rgba(239, 68, 68, 0.15) !important;
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3) !important;
+}
+
+/* 菜单项图标背景光晕 */
+.icon-glow {
+    position: relative;
+}
+.icon-glow::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120%;
+    height: 120%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    filter: blur(15px);
+    z-index: -1;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+}
+.group:hover .icon-glow::after {
+    opacity: 0.9;
+}
+.glow-blue::after { background: rgba(59, 130, 246, 0.4); }
+.glow-purple::after { background: rgba(168, 85, 247, 0.4); }
+.glow-emerald::after { background: rgba(16, 185, 129, 0.4); }
+
+/* 简单动画 */
+.animate-fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-slide-up { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
